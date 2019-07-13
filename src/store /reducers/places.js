@@ -14,22 +14,10 @@ const reducer=(state=initialState,action)=>{
             return{
                 ...state,
                 places:state.places.filter(e=>{
-                    return e.key!==state.selectedPlace.key;
+                    return e.key!==action.placeKey;
                 }),
-                selectedPlace:null
             };
-        case SELECT_PLACE:
-            return{
-                ...state,
-                selectedPlace:state.places.find(e=>{
-                    return e.key===action.placeKey
-                })
-            };
-        case DESELECT_PLACE:
-            return{
-                ...state,
-                selectedPlace:null,
-            }
+
         default:
             return state;
     
@@ -38,6 +26,6 @@ const reducer=(state=initialState,action)=>{
 
 const initialState={
     places: [],
-    selectedPlace:null,
+
 }
 export default reducer

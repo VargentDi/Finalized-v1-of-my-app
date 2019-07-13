@@ -1,75 +1,23 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import { Navigation } from 'react-native-navigation';
+import SharePlaceScreen from './src/screen/SharePlace/SharePlace';
+import AuthScreen from './src/screen/auth/Auth'
+import FindPlaceScreen from './src/screen/FindPlace/FindPlace';
+import {Provider} from 'react-redux'
+import configureStore from './src/store /configureStore';
+import SelectDetailScreen from './src/screen/PlaceDetail/PlaceDetail'
+import SideDrawer from './src/screen/SideDrawer/SideDrawer'
+const store=configureStore();
+Navigation.registerComponent("finalyProject-places.SharePlaceScreen",()=>SharePlaceScreen,store,Provider);
+Navigation.registerComponent("finalyProject-places.FindPlaceScreen",()=>FindPlaceScreen,store,Provider);
+Navigation.registerComponent("finalyProject-places.SelectDetailScreen",()=>SelectDetailScreen,store,Provider);
+Navigation.registerComponent("finalyProject-places.SideDrawerScreen",()=>SideDrawer);
+//Register screen
 
-import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, TextInput, Button } from 'react-native';
-import PlaceInput from './src/components/PlaceInput/PlaceInput';
-import PlaceList from './src/components/PlaceList/PlaceList';
-import placeImage from './src/assets/beautiful-place.jpg'
-import PlaceDetail from './src/components/PlaceDetail/PlaceDetail';
-import {connect} from "react-redux";
-import {addPlace,deletePlace,selectPlace,deselectPlace} from './src/store /actions/index'
-class App extends Component {
+Navigation.registerComponent("finalyProject-places.AuthScreen",()=>AuthScreen,store,Provider);
 
-
-  itemDeletedHandler = () => {
-    this.props.onDeletePlace();
-
+Navigation.startSingleScreenApp({
+  screen:{
+    screen:"finalyProject-places.AuthScreen",
+    title:"Login"
   }
-  placeSelectHandler=(key)=>{
-    this.props.onSelectPlace(key)
-  }
-
-  modalCloseHandler=()=>{
-    this.props.onDeselectPlace();
-  }
-  placeAddHandler = (placeName) => {
-    this.props.onAddPlace(placeName);
-  }
-  render() {
-
-    return (
-      <View style={styles.container}>
-        <PlaceDetail
-        selectedPlace={this.props.selectedPlace}
-        onItemDeleted={this.itemDeletedHandler}
-        onModalClose={this.modalCloseHandler}
-        />
-        <PlaceInput onPlaceAdded={this.placeAddHandler} />
-        <PlaceList places={this.props.places} onItemSelected={this.placeSelectHandler} />
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 26,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-  },
-
-});
-
-const mapStateToProps=state=>{
-  return{
-    places:state.places.places,
-    selectedPlace:state.places.selectedPlace
-  }
-}
-const mapDispatchToProps=dispatch=>{
-  return{
-    onAddPlace:(name)=>dispatch(addPlace(name)),
-    onDeletePlace:()=>dispatch(deletePlace()),
-    onSelectPlace:(key)=>{dispatch(selectPlace(key))},
-    onDeselectPlace:()=>dispatch(deselectPlace())
-  }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(App)
+})
