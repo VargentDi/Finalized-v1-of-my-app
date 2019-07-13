@@ -72,4 +72,4 @@ const mapDispatchToProps=dispatch=>{
     onDeselectPlace:()=>dispatch(deselectPlace())
   }
 }
-export default connect(mapDispatchToProps,mapStateToProps)(App)
+export default connect(mapStateToProps,mapDispatchToProps)(App)
