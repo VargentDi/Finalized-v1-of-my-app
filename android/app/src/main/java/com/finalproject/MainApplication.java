@@ -19,6 +19,7 @@ public class MainApplication extends NavigationApplication {
         return BuildConfig.DEBUG;
     }
 
+
     @Nullable
     @Override
     public List<ReactPackage> createAdditionalReactPackages() {
