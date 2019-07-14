@@ -1,6 +1,7 @@
 import React ,{Component}from 'react';
 import {View,Text,Dimensions,StyleSheet} from 'react-native'
-class SideDrawer extends Component{
+class SideDrawerScreen extends Component{
+    
     render(){
         return(
             <View style={[styles.conatainer,{width:Dimensions.get("window").width*0.8}]}>
@@ -20,4 +21,4 @@ const styles=StyleSheet.create({
     }
 })
 
-export default SideDrawer
+export default SideDrawerScreen

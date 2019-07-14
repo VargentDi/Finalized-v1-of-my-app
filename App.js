@@ -5,12 +5,12 @@ import FindPlaceScreen from './src/screen/FindPlace/FindPlace';
 import {Provider} from 'react-redux'
 import configureStore from './src/store /configureStore';
 import SelectDetailScreen from './src/screen/PlaceDetail/PlaceDetail'
-import SideDrawer from './src/screen/SideDrawer/SideDrawer'
+import SideDrawerScreen from './src/screen/SideDrawer/SideDrawer'
 const store=configureStore();
 Navigation.registerComponent("finalyProject-places.SharePlaceScreen",()=>SharePlaceScreen,store,Provider);
 Navigation.registerComponent("finalyProject-places.FindPlaceScreen",()=>FindPlaceScreen,store,Provider);
 Navigation.registerComponent("finalyProject-places.SelectDetailScreen",()=>SelectDetailScreen,store,Provider);
-Navigation.registerComponent("finalyProject-places.SideDrawerScreen",()=>SideDrawer);
+Navigation.registerComponent("finalyProject-places.SideDrawerScreen",()=>SideDrawerScreen);
 //Register screen
 
 Navigation.registerComponent("finalyProject-places.AuthScreen",()=>AuthScreen,store,Provider);
