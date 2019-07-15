@@ -10,7 +10,7 @@ const store=configureStore();
 Navigation.registerComponent("finalyProject-places.SharePlaceScreen",()=>SharePlaceScreen,store,Provider);
 Navigation.registerComponent("finalyProject-places.FindPlaceScreen",()=>FindPlaceScreen,store,Provider);
 Navigation.registerComponent("finalyProject-places.SelectDetailScreen",()=>SelectDetailScreen,store,Provider);
-Navigation.registerComponent("finalyProject-places.SideDrawerScreen",()=>SideDrawerScreen);
+Navigation.registerComponent("finalyProject-places.SideDrawerScreen",()=>SideDrawerScreen,store,Provider);
 //Register screen
 
 Navigation.registerComponent("finalyProject-places.AuthScreen",()=>AuthScreen,store,Provider);

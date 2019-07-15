@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, View, Image, Text, Button, StyleSheet,TouchableOpacity } from 'react-native'
+import { Modal, View, Image, Text, Button, StyleSheet,TouchableOpacity,Platform } from 'react-native'
 
 import Icons from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
@@ -28,7 +28,7 @@ class PlaceDetail extends React.Component{
             <View style={styles.icons}>
                 <TouchableOpacity onPress={this.deletHandler}>
 
-                <Icons name='ios-trash' color='red' size={30} />
+                <Icons name={Platform.OS==='android'?"md-trash":'ios-trash'} color='red' size={30} />
                 </TouchableOpacity>
                 <Button title='goback' onPress={this.props.onModalClose} />
             </View>

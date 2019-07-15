@@ -4,6 +4,7 @@ import android.app.Application;
 import android.support.annotation.Nullable;
 
 import com.facebook.react.ReactApplication;
+import com.airbnb.android.react.maps.MapsPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -26,6 +27,7 @@ public class MainApplication extends NavigationApplication {
         return Arrays.<ReactPackage>asList(
             // the following line is present so that `react-native link` works correctly
             new MainReactPackage(),
+            new MapsPackage(),
             new VectorIconsPackage()
         );
     }

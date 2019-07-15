@@ -4,8 +4,7 @@ import {Text,StyleSheet} from 'react-native';
 
 
 const HeadingText=props=>{
-    console.log(props.children);
-    console.log(props);
+
     return(
     <Text
     {...props}
