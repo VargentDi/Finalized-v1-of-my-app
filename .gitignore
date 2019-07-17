@@ -4,7 +4,7 @@
 
 # Xcode
 #
-ios/
+
 
 *.pbxuser
 !default.pbxuser
@@ -26,7 +26,7 @@ project.xcworkspace
 # Android/IntelliJ
 #
 
-android/
+
 .idea
 .gradle
 local.properties
@@ -58,4 +58,10 @@ buck-out/
 *.jsbundle
 #cloud function
 
-function/
+
+ios
+functions
+android
+__tests__
+.buckconfig
+.flowconfig
