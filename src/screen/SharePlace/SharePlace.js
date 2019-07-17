@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 
-import { ActivityIndicator,View, Text, TextInput, Button, StyleSheet, ScrollView ,Image} from 'react-native';
+import { ActivityIndicator, View, Text, TextInput, Button, StyleSheet, ScrollView, Image } from 'react-native';
 import { connect } from 'react-redux';
 import PlaceInput from '../../components/PlaceInput/PlaceInput';
-import { addPlace } from '../../store /actions/index';
+import { addPlace ,startAddplace} from '../../store /actions/index';
 import DefaultInput from '../../components/UI/defaultInput';
 import MainText from '../../components/UI/MainText/MainText';
 import HeadingText from '../../components/UI/HeadingText';
 import PickImage from '../../components/pickImage/pickImage'
-import PickLocation from '../../components/pickLocation/pickLoaction'
+import PickLocation from '../../components/pickLocation/pickLoaction';
+
 const styles = StyleSheet.create({
     placeholder: {
         borderWidth: 1,
@@ -28,27 +29,27 @@ const styles = StyleSheet.create({
 
 })
 class SharePlaceScreen extends Component {
-    static navigatorStyle={
-        navBarButtonColor:'orange'
+    static navigatorStyle = {
+        navBarButtonColor: 'orange'
     }
-    
-    state={
-        controls:{
-            placeName:{
-                value:'',
-                valid:false,
-                touched:false,
-                validationRules:{
-                    notEmpty:true
+
+    state = {
+        controls: {
+            placeName: {
+                value: '',
+                valid: false,
+                touched: false,
+                validationRules: {
+                    notEmpty: true
                 },
             },
-            location:{
-                value:null,
-                valid:false,
+            location: {
+                value: null,
+                valid: false,
             },
-            image:{
-                value:null,
-                valid:false
+            image: {
+                value: null,
+                valid: false
             }
         }
     }
@@ -57,9 +58,43 @@ class SharePlaceScreen extends Component {
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
 
     }
-
+    componentWillMount() {
+        this.reset()
+    }
+    componentDidUpdate() {
+        if (this.props.placeAdded) {
+            this.props.navigator.switchToTab({ tabIndex: 0 })
+            // this.props.onStartAddPlace();
+        }
+    }
+    reset = () => {
+        this.setState({
+            controls: {
+                placeName: {
+                    value: '',
+                    valid: false,
+                    touched: false,
+                    validationRules: {
+                        notEmpty: true
+                    },
+                },
+                location: {
+                    value: null,
+                    valid: false,
+                },
+                image: {
+                    value: null,
+                    valid: false
+                }
+            }
+        })
+    }
     onNavigatorEvent = (event) => {
-
+        if(event.type==='ScreenChangedEvent'){
+            if(event.id==='willAppear'){
+                this.props.onStartAddPlace();
+            }
+        }
         if (event.type === "NavBarButtonPress") {
             if (event.id === "sideDrawerToogle") {
                 this.props.navigator.toggleDrawer({
@@ -75,68 +110,71 @@ class SharePlaceScreen extends Component {
             this.state.controls.placeName.value,
             this.state.controls.location.value,
             this.state.controls.image.value
-            );
-
+        );
+        this.reset()
+        this.imagePicker.reset()
+        this.pickLocation.reset();
+        // this.props.navigator.switchToTab({tabIndex:0})
     }
-    locationPickHandler=(location)=>{
+    locationPickHandler = (location) => {
         this.setState({
-            controls:{
+            controls: {
                 ...this.state.controls,
-                location:{
-                    value:location,
-                    valid:true
+                location: {
+                    value: location,
+                    valid: true
                 }
             }
         })
 
     }
-    checkPlaceValueValid=()=>{
-        if(this.state.controls.placeName.value.trim().length>0){
+    checkPlaceValueValid = () => {
+        if (this.state.controls.placeName.value.trim().length > 0) {
             return true
         }
         return false;
     }
-    placeNameChangeHandler=(val)=>{
-        
+    placeNameChangeHandler = (val) => {
+
         this.setState({
-            controls:{
+            controls: {
                 ...this.state.controls,
-                placeName:{
+                placeName: {
                     ...this.state.controls.placeName,
-                    value:val,
-                    valid:this.checkPlaceValueValid
+                    value: val,
+                    valid: this.checkPlaceValueValid
                 }
             }
         })
 
     }
-    imagePickedHandler=(image)=>{
+    imagePickedHandler = (image) => {
         this.setState({
 
-            controls:{
+            controls: {
                 ...this.state.controls,
-                image:{
+                image: {
                     ...this.state.controls.image,
-                    value:image,
-                    valid:true,
+                    value: image,
+                    valid: true,
                 }
             }
         })
     }
     render() {
-        let submiteButton=(
-            <Button title='share  me' 
-            disabled={!this.state.controls.placeName.valid||
-            !this.state.controls.location.valid||
-            !this.state.controls.image.valid
-        }
-            onPress={this.placeAddHandler}
+        let submiteButton = (
+            <Button title='share  me'
+                disabled={!this.state.controls.placeName.valid ||
+                    !this.state.controls.location.valid ||
+                    !this.state.controls.image.valid
+                }
+                onPress={this.placeAddHandler}
             />
         );
-        if(this.props.isLoading){
-            submiteButton=(
-                <ActivityIndicator 
-                
+        if (this.props.isLoading) {
+            submiteButton = (
+                <ActivityIndicator
+
                 />
             )
         }
@@ -144,15 +182,17 @@ class SharePlaceScreen extends Component {
             <ScrollView >
                 <View style={styles.container}>
                     <MainText><HeadingText>share a place with us</HeadingText></MainText>
-                    <PickImage 
-                    onImagePicked={this.imagePickedHandler}
+                    <PickImage
+                        ref={ref => (this.imagePicker = ref)}
+                        onImagePicked={this.imagePickedHandler}
                     />
-                    <PickLocation 
-                    onLocationPick={this.locationPickHandler}
+                    <PickLocation
+                        ref={ref => (this.pickLocation = ref)}
+                        onLocationPick={this.locationPickHandler}
                     />
                     <PlaceInput
-                    placeData={this.state.controls.placeName}
-                    onChangeText={this.placeNameChangeHandler}
+                        placeData={this.state.controls.placeName}
+                        onChangeText={this.placeNameChangeHandler}
 
                     />
                     <View style={styles.button}>
@@ -167,15 +207,17 @@ class SharePlaceScreen extends Component {
     }
 }
 
-const mapStateToProps=state=>{
-    return{
-        isLoading:state.ui.isLoading
+const mapStateToProps = state => {
+    return {
+        isLoading: state.ui.isLoading,
+        placeAdded: state.places.placeAdded
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddPlace: (placeName,location,image) => dispatch(addPlace(placeName,location,image))
+        onAddPlace: (placeName, location, image) => dispatch(addPlace(placeName, location, image)),
+        onStartAddPlace:()=>dispatch(startAddplace())
     }
 }
 

@@ -8,8 +8,17 @@ export default class PickImage extends React.Component {
         pickedImage:null,
 
     }
+    componentWillMount(){
+        this.reset()
+    }
+
+    reset=()=>{
+        this.setState({
+            pickedImage:null
+        })
+    }
     pickedImageHandler=()=>{
-        ImagePicker.showImagePicker({title:'pick an image'},res=>{
+        ImagePicker.showImagePicker({title:'pick an image',maxWidth:800,maxHeight:600},res=>{
             if(res.didCancel){
                 console.log('User Cancelled')
             }else if(res.error){

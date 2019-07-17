@@ -1,5 +1,10 @@
-import { ADD_PLACE, DELETE_PLACE, SELECT_PLACE, DESELECT_PLACE, SET_PLACES, REMOVE_PLACE } from './actionTypes';
+import { ADD_PLACE, DELETE_PLACE, SELECT_PLACE, DESELECT_PLACE, SET_PLACES, REMOVE_PLACE,PLACE_ADDED ,START_ADD_PLACE} from './actionTypes';
 import { uiStartLoading, uiStopLoading, authGetToken } from './index'
+export const startAddplace=()=>{
+    return{
+        type:START_ADD_PLACE
+    }
+}
 export const addPlace = (placeName, location, image) => {
 
     return dispatch => {
@@ -17,7 +22,6 @@ export const addPlace = (placeName, location, image) => {
                     body: JSON.stringify({
                         image: image.base64
                     }),
-                    
                     headers:{
                         "authorization":"Bearer "+token
                     }
@@ -27,30 +31,52 @@ export const addPlace = (placeName, location, image) => {
                 console.log(err)
                 dispatch(uiStopLoading())
             })
-            .then(res => res.json())
+            .then(res => {
+                if(res.ok){
+                    return res.json()
+                }else{
+                    throw (new Error())
+                }
+            })
             .then(data => {
                 const placeData = {
                     name: placeName,
                     location: location,
-                    image: data.imageUrl
+                    image: data.imageUrl,
+                    imagePath:data.imagePath
                 }
 
                 return fetch('https://ios-demo-2f47f.firebaseio.com/places.json?auth='+authToken, {
                     method: 'POST',
                     body: JSON.stringify(placeData)
                 }).catch(err => {
+
                     dispatch(uiStopLoading())
                     console.log(err)
-                }).then((data) => {
-                    data.json()
-                }).then((data) => {
+                }).then((res) => {
+                    if(res.ok){
+                        return res.json()
+                    }else{
+                        throw (new Error())
+                    }
+                })
+                .then((data) => {
+                    console.log(data);
                     dispatch(getPlaces())
+                    dispatch(placeAdded())
                     dispatch(uiStopLoading())
+                })
+                .catch(err=>{
+                    alert(err)
                 })
             })
     }
 };
-
+export const placeAdded=()=>{
+    return{
+        type:PLACE_ADDED,
+    }
+}
 export const getPlaces = () => {
     return dispatch => {
         dispatch(authGetToken())
@@ -60,7 +86,13 @@ export const getPlaces = () => {
             .catch(() => {
                 alert('no valid token')
             })
-            .then(res => res.json())
+            .then((res) => {
+                if(res.ok){
+                    return res.json()
+                }else{
+                    throw (new Error())
+                }
+            })
             .then(parsedRes => {
                 const places = [];
                 for (let key in parsedRes) {
@@ -100,7 +132,13 @@ export const deletePlace = (key) => {
             .catch(() => {
                 alert('no valid token find ')
             })
-            .then(res => res.json)
+            .then((res) => {
+                if(res.ok){
+                    return res.json()
+                }else{
+                    throw (new Error())
+                }
+            })
             .then(parseJson => {
                 console.log('done')
             })
