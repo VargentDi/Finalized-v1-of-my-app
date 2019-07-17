@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { View, Text, TextInput, Button, StyleSheet, ScrollView ,Image} from 'react-native';
+import { ActivityIndicator,View, Text, TextInput, Button, StyleSheet, ScrollView ,Image} from 'react-native';
 import { connect } from 'react-redux';
 import PlaceInput from '../../components/PlaceInput/PlaceInput';
 import { addPlace } from '../../store /actions/index';
@@ -45,6 +45,10 @@ class SharePlaceScreen extends Component {
             location:{
                 value:null,
                 valid:false,
+            },
+            image:{
+                value:null,
+                valid:false
             }
         }
     }
@@ -67,7 +71,11 @@ class SharePlaceScreen extends Component {
     }
     placeAddHandler = () => {
 
-        this.props.onAddPlace(this.state.controls.placeName.value,this.state.controls.location.value);
+        this.props.onAddPlace(
+            this.state.controls.placeName.value,
+            this.state.controls.location.value,
+            this.state.controls.image.value
+            );
 
     }
     locationPickHandler=(location)=>{
@@ -102,15 +110,43 @@ class SharePlaceScreen extends Component {
         })
 
     }
+    imagePickedHandler=(image)=>{
+        this.setState({
+
+            controls:{
+                ...this.state.controls,
+                image:{
+                    ...this.state.controls.image,
+                    value:image,
+                    valid:true,
+                }
+            }
+        })
+    }
     render() {
-        console.log(!this.state.controls.location.valid)
-        console.log(!this.state.controls.placeName.valid)
-        console.log(!this.state.controls.location.valid || !this.state.controls.placeName.valid)
+        let submiteButton=(
+            <Button title='share  me' 
+            disabled={!this.state.controls.placeName.valid||
+            !this.state.controls.location.valid||
+            !this.state.controls.image.valid
+        }
+            onPress={this.placeAddHandler}
+            />
+        );
+        if(this.props.isLoading){
+            submiteButton=(
+                <ActivityIndicator 
+                
+                />
+            )
+        }
         return (
             <ScrollView >
                 <View style={styles.container}>
                     <MainText><HeadingText>share a place with us</HeadingText></MainText>
-                    <PickImage />
+                    <PickImage 
+                    onImagePicked={this.imagePickedHandler}
+                    />
                     <PickLocation 
                     onLocationPick={this.locationPickHandler}
                     />
@@ -120,11 +156,8 @@ class SharePlaceScreen extends Component {
 
                     />
                     <View style={styles.button}>
-                    <Button title='share  me' 
-                    disabled={!this.state.controls.placeName.valid||
-                    !this.state.controls.location.valid}
-                    onPress={this.placeAddHandler}
-                    /></View>
+                        {submiteButton}
+                    </View>
 
                     <View style={styles.placeholder}><Text>list</Text></View>
 
@@ -134,10 +167,16 @@ class SharePlaceScreen extends Component {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onAddPlace: (placeName,location) => dispatch(addPlace(placeName,location))
+const mapStateToProps=state=>{
+    return{
+        isLoading:state.ui.isLoading
     }
 }
 
-export default connect(null, mapDispatchToProps)(SharePlaceScreen)
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddPlace: (placeName,location,image) => dispatch(addPlace(placeName,location,image))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SharePlaceScreen)

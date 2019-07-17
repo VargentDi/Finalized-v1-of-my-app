@@ -2,10 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>yeah </string>
+	<key>NSCameraUsageDescription</key>
+	<string>yeah we need to have your permission</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>lets stream a bit</string>
-	<key>NSCameraUsageDescription</key>
-	<string>shoot a photo</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>pick image</string>
 	<key>NSLocationUsageDescription</key>
@@ -33,7 +35,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

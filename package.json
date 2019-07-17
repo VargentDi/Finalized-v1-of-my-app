@@ -9,14 +9,16 @@
     "android": "react-native run-android"
   },
   "dependencies": {
+    "@google-cloud/storage": "^1.7.0",
     "react": "16.8.3",
     "react-native": "0.59.10",
-    "react-native-image-picker": "^1.0.1",
+    "react-native-image-picker": "^0.28.1",
     "react-native-maps": "^0.25.0",
     "react-native-navigation": "^1.1.493",
     "react-native-vector-icons": "^6.6.0",
     "react-redux": "^6.0.1",
-    "redux": "^4.0.4"
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "7.5.4",

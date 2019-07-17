@@ -15,7 +15,7 @@ Navigation.registerComponent("finalyProject-places.SideDrawerScreen",()=>SideDra
 
 Navigation.registerComponent("finalyProject-places.AuthScreen",()=>AuthScreen,store,Provider);
 
-Navigation.startSingleScreenApp({
+export default ()=>Navigation.startSingleScreenApp({
   screen:{
     screen:"finalyProject-places.AuthScreen",
     title:"Login"
