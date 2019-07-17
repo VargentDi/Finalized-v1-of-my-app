@@ -27,6 +27,7 @@ project.xcworkspace
 #
 
 
+
 .idea
 .gradle
 local.properties
@@ -65,3 +66,4 @@ android
 __tests__
 .buckconfig
 .flowconfig
+fireBaseApi.js

@@ -2,7 +2,7 @@ import { TRY_AUTH, AUTH_SET_TOKEN ,AUTH_REMOVE_TOKEN} from './actionTypes';
 import { uiStartLoading, uiStopLoading } from './index';
 import startMainTab from '../../screen/MainTabs/startMainTabs'
 import { AsyncStorage } from 'react-native'
-const apiKey = 'AIzaSyC84FX6Aek70drORWBT4h-ydEaytcsRcG8';
+import {apiKey} from '../../../fireBaseApi'
 import App from '../../../App'
 export const tryAuth = (authData, authMode) => {
 
